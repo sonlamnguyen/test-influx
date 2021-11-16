@@ -1,11 +1,11 @@
 const { InfluxDB, Point } = require('@influxdata/influxdb-client')
 
 // You can generate an API token from the "API Tokens Tab" in the UI
-const token = 'ZhjWwoESb6juvA_E3u1ceHJh0dykZSActpz2cmQNtcRqgCl2psHJ30ml6fv1lMaHr8xC9V9jvlaTS5FkvncxDQ=='
-const org = 'lumi-demo'
+const token = 'XfsFyaI2Q6p_XUTlteXwgCmWq8zRGHuO7mVZIcFBElzRSg9fgeYlXVsiRJZFni1R3hO5KmrscLzHBEmEp2-3pA=='
+const org = 'trunglv'
 const bucket = 'smarthome-test'
 
-const client = new InfluxDB({ url: 'http://localhost:8086', token: token })
+const client = new InfluxDB({url: 'http://10.10.0.111:8086', token: token})
 
 
 const writeApi = client.getWriteApi(org, bucket)
@@ -49,29 +49,29 @@ function runInsert() {
         });
 }
 
-// runInsert();
+runInsert();
 
-const queryApi = client.getQueryApi(org)
-const host = "host2";
-const query = `from(bucket: "smarthome-test") 
-                    |> range(start: -10h) 
-                    |> group()
-                    |> count(column:"name")`;
-console.log({query});
+// const queryApi = client.getQueryApi(org)
+// const host = "host2";
+// const query = `from(bucket: "smarthome-test") 
+//                     |> range(start: -10h) 
+//                     |> group()
+//                     |> count(column:"name")`;
+// console.log({query});
 
-queryApi.queryRows(query, {
-    next(row, tableMeta) {
-        const o = tableMeta.toObject(row)
-        console.log(o);
-        console.log(`${o._time} ${o._measurement}: ${o._field}=${o._value}`)
-    },
-    error(error) {
-        console.error(error)
-        console.log('Finished ERROR')
-    },
-    complete() {
-        console.log('Finished SUCCESS')
-    },
-});
+// queryApi.queryRows(query, {
+//     next(row, tableMeta) {
+//         const o = tableMeta.toObject(row)
+//         console.log(o);
+//         console.log(`${o._time} ${o._measurement}: ${o._field}=${o._value}`)
+//     },
+//     error(error) {
+//         console.error(error)
+//         console.log('Finished ERROR')
+//     },
+//     complete() {
+//         console.log('Finished SUCCESS')
+//     },
+// });
 
 
